@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Fragment Vault</title>
+  <title>Impossible Dossier</title>
   <style>
     :root{
       --bg:#070A12;
@@ -30,8 +30,7 @@
         linear-gradient(180deg, #04060c 0%, #070A12 100%);
       overflow-x:hidden;
     }
-    .wrap{ width:min(1050px, 94vw); margin:0 auto; padding:26px 0 30px; }
-    header{ padding:0 0 8px; }
+    .wrap{ width:min(1100px, 94vw); margin:0 auto; padding:26px 0 30px; }
     h1{
       margin:0;
       letter-spacing:.08em;
@@ -44,17 +43,16 @@
       margin:10px 0 0;
       color:var(--muted);
       font-size:13px;
-      line-height:1.4;
-      max-width: 75ch;
+      line-height:1.45;
+      max-width: 85ch;
     }
     .grid{
       margin-top:14px;
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
+      grid-template-columns: 1.15fr .85fr;
       gap:14px;
     }
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr;} }
-
+    @media (max-width: 950px){ .grid{grid-template-columns:1fr;} }
     .card{
       background: var(--panel);
       border:1px solid var(--line);
@@ -95,6 +93,8 @@
       color: var(--text);
       outline:none;
       font-size:14px;
+      font-family:var(--mono);
+      letter-spacing:.06em;
     }
     input:focus{
       border-color: rgba(120, 160, 255, .55);
@@ -123,7 +123,7 @@
     .status.bad{ color: var(--bad); }
     .status.warn{ color: var(--warn); }
 
-    .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
     .chip{
       font-family:var(--mono);
       font-size:12px;
@@ -137,6 +137,35 @@
       color: rgba(255,255,255,.95);
       border-color: rgba(87,242,135,.35);
       background: rgba(87,242,135,.10);
+    }
+
+    details{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      padding:10px 12px;
+      background: rgba(0,0,0,.16);
+      margin-top:10px;
+    }
+    summary{
+      cursor:pointer;
+      user-select:none;
+      font-family:var(--mono);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-weight:900;
+      font-size:12px;
+      color: rgba(234,240,255,.85);
+    }
+    .page{
+      margin-top:10px;
+      font-family:var(--mono);
+      color: rgba(234,240,255,.78);
+      line-height:1.6;
+      font-size:13px;
+    }
+    .bracket{
+      color: rgba(234,240,255,.95);
+      font-weight:900;
     }
 
     .piece{
@@ -156,7 +185,7 @@
     .piece .val{
       font-size:14px;
       font-weight:900;
-      letter-spacing:.14em;
+      letter-spacing:.16em;
       color: rgba(234,240,255,.95);
     }
     .piece .val.muted{ color: rgba(234,240,255,.35); font-weight:700; }
@@ -167,128 +196,216 @@
       border-radius:14px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
-      min-height: 180px;
+      min-height: 190px;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
     }
-
-    .small{
+    .tiny{
       font-family:var(--mono);
       font-size:12px;
       color: rgba(234,240,255,.55);
       line-height:1.5;
+    }
+    .rule{
+      border-left:3px solid rgba(255,255,255,.14);
+      padding-left:10px;
+      margin:10px 0 0;
+      color: rgba(234,240,255,.70);
+      font-family:var(--mono);
+      font-size:12px;
+      line-height:1.55;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Fragment Vault</h1>
+      <h1>Impossible Dossier</h1>
       <p class="subhead">
-        None of the questions are about the destination. They only give you <b>number tokens</b>.
-        Convert the tokens with <b>A1Z26</b> to build a key, then use the key to decrypt the dossier.
+        There is one main rule: NO INTERNET
+      <p class="rule" title="Tiny hint: the page itself is the encyclopedia.">
+        RULES: A–Z only unless told otherwise. Spaces don’t matter. If you try to “internet” it,
+        you’ll still have to use the rules inside this file.
       </p>
     </header>
 
     <div class="grid">
-      <!-- LEFT: MINI PUZZLES -->
+      <!-- LEFT: SEALS -->
       <section class="card">
-        <h2>Token 1 — Time</h2>
-        <p class="hint">How many minutes are in half of a half-hour?</p>
-        <div class="panel">Answer with a number from 1–26.</div>
+        <h2>Seal 1 — The Sentence of Threes</h2>
+        <p class="hint">
+          The answer is a 5-letter word. You do not need outside facts.
+          The instruction is hidden as a *method*, not a phrase:
+          <b>Count in threes. Take the first breath of each third step.</b>
+        </p>
+
+        <div class="panel">
+          Quiet lanterns Shiver under moonlight; Ancient maps never Break when locked Legends enter silently Everywhere.
+        </div>
+
         <div class="row">
-          <input id="a1" placeholder="token 1 number" inputmode="numeric" autocomplete="off">
-          <button onclick="check(1)">Submit</button>
+          <input id="seal1" placeholder="seal 1 answer (5 letters)" autocomplete="off">
+          <button onclick="checkSeal(1)">Submit</button>
           <button class="hintbtn" onclick="hint(1)">Hint</button>
         </div>
         <div class="status" id="s1"></div>
 
-        <div style="height:10px"></div>
+        <div style="height:14px"></div>
 
-        <h2>Token 2 — Sports</h2>
-        <p class="hint">How many holes are in a standard round of golf?</p>
-        <div class="panel">Answer with a number from 1–26.</div>
+        <h2>Seal 2 — The Order You Can’t Google</h2>
+        <p class="hint">
+          Five objects must be placed in a single left→right order (1–5).
+          Use only the clues. Then produce a 5-digit code:
+          <b>write the positions of (ANCHOR, CLOCK, FEATHER, LANTERN, MASK)</b> in that order.
+        </p>
+
+        <div class="panel">
+          Objects: LANTERN · ANCHOR · CLOCK · FEATHER · MASK<br><br>
+          Clues:<br>
+          1) ANCHOR is immediately before FEATHER.<br>
+          2) MASK is not first and not last.<br>
+          3) CLOCK is exactly two places after LANTERN.<br>
+          4) ANCHOR is not first.
+        </div>
+
         <div class="row">
-          <input id="a2" placeholder="token 2 number" inputmode="numeric" autocomplete="off">
-          <button onclick="check(2)">Submit</button>
+          <input id="seal2" placeholder="seal 2 code (5 digits)" inputmode="numeric" autocomplete="off">
+          <button onclick="checkSeal(2)">Submit</button>
           <button class="hintbtn" onclick="hint(2)">Hint</button>
         </div>
         <div class="status" id="s2"></div>
 
-        <div style="height:10px"></div>
+        <div style="height:14px"></div>
 
-        <h2>Token 3 — Astronomy</h2>
-        <p class="hint">How many moons does Mars have?</p>
-        <div class="panel">Answer with a number from 1–26.</div>
+        <h2>Seal 3 — Prime Extraction</h2>
+        <p class="hint">
+          The answer is a 4-letter word. Extract letters at <b>prime positions</b> (1-indexed)
+          from the sequence below. (Yes, you must know what “prime positions” means.)
+        </p>
+
+        <div class="panel">
+          Sequence: Q N O U V E A R Z
+        </div>
+
         <div class="row">
-          <input id="a3" placeholder="token 3 number" inputmode="numeric" autocomplete="off">
-          <button onclick="check(3)">Submit</button>
+          <input id="seal3" placeholder="seal 3 answer (4 letters)" autocomplete="off">
+          <button onclick="checkSeal(3)">Submit</button>
           <button class="hintbtn" onclick="hint(3)">Hint</button>
         </div>
         <div class="status" id="s3"></div>
 
-        <div style="height:10px"></div>
+        <div style="height:14px"></div>
 
-        <h2>Token 4 — Baseball</h2>
-        <p class="hint">How many innings are in a standard baseball game?</p>
-        <div class="panel">Answer with a number from 1–26.</div>
+        <h2>Seal 4 — The Archive Pages</h2>
+        <p class="hint">
+          You will extract a 4-letter answer from the archive. This is a *book cipher*, but the “book” is below.
+          You must already have Seal 2 solved.
+        </p>
+
+        <div class="panel">
+          Method (do not skip steps):<br>
+          A) Take the <b>first 4 digits</b> of your Seal 2 code.<br>
+          B) Open pages in that digit order (e.g., 4→3→5→1).<br>
+          C) On each page, find the first bracketed word like <span class="bracket">[WORD]</span> and take its first letter.<br>
+          D) Those four letters form Seal 4.
+        </div>
+
+        <details>
+          <summary>PAGE 1</summary>
+          <div class="page">
+            <span class="bracket">[ORCHARD]</span> The record keeper refused to name places.
+            Instead, they wrote recipes for remembering: count, extract, recombine.
+            A safe that opens from curiosity is safer than a safe that opens from force.
+          </div>
+        </details>
+
+        <details>
+          <summary>PAGE 2</summary>
+          <div class="page">
+            <span class="bracket">[TANGLE]</span> A knot can be untied by patience.
+            If you race, you tighten it. If you read, you loosen it.
+            There are no shortcuts—only methods pretending to be shortcuts.
+          </div>
+        </details>
+
+        <details>
+          <summary>PAGE 3</summary>
+          <div class="page">
+            <span class="bracket">[CANDLE]</span> When the light is wrong,
+            shadows look like answers. When the light is right,
+            answers look inevitable.
+          </div>
+        </details>
+
+        <details>
+          <summary>PAGE 4</summary>
+          <div class="page">
+            <span class="bracket">[EQUINOX]</span> The archive is built to punish guessing.
+            A guess is loud and fragile. A method is quiet and strong.
+            Keep what you earn. Discard what you assume.
+          </div>
+        </details>
+
+        <details>
+          <summary>PAGE 5</summary>
+          <div class="page">
+            <span class="bracket">[HARBOR]</span> If you insist on searching the internet,
+            you will only find mirrors. None of those mirrors contain this archive.
+            The only real reference is the one you are reading.
+          </div>
+        </details>
+
         <div class="row">
-          <input id="a4" placeholder="token 4 number" inputmode="numeric" autocomplete="off">
-          <button onclick="check(4)">Submit</button>
+          <input id="seal4" placeholder="seal 4 answer (4 letters)" autocomplete="off">
+          <button onclick="checkSeal(4)">Submit</button>
           <button class="hintbtn" onclick="hint(4)">Hint</button>
         </div>
         <div class="status" id="s4"></div>
-
-        <div style="height:10px"></div>
-
-        <h2>Token 5 — Geometry</h2>
-        <p class="hint">How many faces does an icosahedron have?</p>
-        <div class="panel">Answer with a number from 1–26.</div>
-        <div class="row">
-          <input id="a5" placeholder="token 5 number" inputmode="numeric" autocomplete="off">
-          <button onclick="check(5)">Submit</button>
-          <button class="hintbtn" onclick="hint(5)">Hint</button>
-        </div>
-        <div class="status" id="s5"></div>
       </section>
 
-      <!-- RIGHT: TOKENS + DECRYPT -->
+      <!-- RIGHT: FRAGMENTS + DECRYPT -->
       <aside class="card">
-        <h2>Collected tokens</h2>
+        <h2>Fragments</h2>
         <p class="hint">
-          Tokens are numbers 1–26. Convert them using A1Z26 to make a 5-letter key.
-          (Example: 1=A, 2=B, 26=Z)
+          You’re collecting fragments, not a location. When all seals are solved, you build a key.
+          Key rule is revealed only after you solve Seals 1–4.
         </p>
 
         <div class="chips">
-          <span class="chip" id="c1">T1</span>
-          <span class="chip" id="c2">T2</span>
-          <span class="chip" id="c3">T3</span>
-          <span class="chip" id="c4">T4</span>
-          <span class="chip" id="c5">T5</span>
+          <span class="chip" id="c1">SEAL 1</span>
+          <span class="chip" id="c2">SEAL 2</span>
+          <span class="chip" id="c3">SEAL 3</span>
+          <span class="chip" id="c4">SEAL 4</span>
         </div>
 
-        <div class="piece"><div class="label">Token 1</div><div class="val muted" id="t1">__</div></div>
-        <div class="piece"><div class="label">Token 2</div><div class="val muted" id="t2">__</div></div>
-        <div class="piece"><div class="label">Token 3</div><div class="val muted" id="t3">__</div></div>
-        <div class="piece"><div class="label">Token 4</div><div class="val muted" id="t4">__</div></div>
-        <div class="piece"><div class="label">Token 5</div><div class="val muted" id="t5">__</div></div>
+        <div class="piece"><div class="label">Seal 1</div><div class="val muted" id="v1">_____</div></div>
+        <div class="piece"><div class="label">Seal 2</div><div class="val muted" id="v2">_____</div></div>
+        <div class="piece"><div class="label">Seal 3</div><div class="val muted" id="v3">____</div></div>
+        <div class="piece"><div class="label">Seal 4</div><div class="val muted" id="v4">____</div></div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel" id="keyrule">
+          <div style="color:rgba(234,240,255,.82); margin-bottom:8px;">KEY RULE (locked)</div>
+          <div class="tiny">Solve all four seals to reveal how to build the key.</div>
+        </div>
 
         <div style="height:12px"></div>
 
         <div class="panel">
-          <div style="color:rgba(234,240,255,.80); margin-bottom:8px;">DOSSIER (encrypted)</div>
-          <div id="cipher" style="letter-spacing:.10em;">KRTPBBXUWG RT</div>
-          <div class="small" style="margin-top:8px;">
-            This is a Vigenère cipher (A–Z). You can’t brute-force it here—earn the key.
+          <div style="color:rgba(234,240,255,.82); margin-bottom:8px;">DOSSIER (encrypted)</div>
+          <div style="letter-spacing:.12em; font-weight:900;">OANHMPNHGN YC</div>
+          <div class="tiny" style="margin-top:8px;">
+            Cipher: Vigenère (A–Z). Spaces preserved.
+            This ciphertext means nothing without the correct key.
           </div>
         </div>
 
         <div class="row" style="margin-top:12px;">
-          <input id="key" placeholder="enter 5-letter key" autocomplete="off">
-          <button onclick="unlock()">Decrypt</button>
+          <input id="key" placeholder="enter 8-letter key" autocomplete="off">
+          <button onclick="decrypt()">Decrypt</button>
         </div>
         <div class="status" id="sk"></div>
 
@@ -297,162 +414,184 @@
             Decrypted destination will appear here.
           </div>
         </div>
+
+        <div style="height:10px"></div>
+        <div class="tiny">
+          Tip: This stays hard even with AI because the rules are custom and the “dataset” is inside the file.
+        </div>
       </aside>
     </div>
   </div>
 
   <script>
-    // --- Correct token answers (numbers 1–26) ---
-    // Not related to the destination; they form a key only after A1Z26 conversion.
-    const SOL = { 1:15, 2:18, 3:2, 4:9, 5:20 };
+    // --- Helpers ---
+    const A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const state = { solved:{1:false,2:false,3:false,4:false}, val:{1:"",2:"",3:"",4:""} };
 
-    // Ciphertext is shown; plaintext is NOT stored as plain text.
-    const CIPHER = "KRTPBBXUWG RT";
+    // SHA-256 hashes of correct answers (so the answers aren't sitting in plain text)
+    // seal1: SABLE
+    // seal2: 43512
+    // seal3: NOVA
+    // seal4: ECHO
+    // key:  SAVAECHO
+    const HASH = {
+      1: "733fbc193a6f109922544af571bfbe58ab189460cbdd3971d2c666800d75e32a",
+      2: "40c38939612f59ad418569e94a075935576bff0449c7f80f130629fc296a378e",
+      3: "c2385250186d29ac49370c0d87d40cfc0b434bdba9ae2e74e9a94c1cda87d667",
+      4: "23c3bebf31826568ef891d4c8f852b3875d2e5beff0ca44e02bd310c892c0923",
+      K: "22d573d47814c5b29112c2eec03f29d16bf86d59d5156736dbcc3ace54d322e9"
+    };
 
-    const got = {1:null,2:null,3:null,4:null,5:null};
-    const hints = {1:0,2:0,3:0,4:0,5:0};
-
-    function normNum(x){
-      const n = parseInt(String(x).trim(), 10);
-      if (!Number.isFinite(n)) return null;
-      return n;
+    function normAZ(s){
+      return (s||"").toUpperCase().replace(/[^A-Z0-9]/g,"").trim();
     }
-
     function setStatus(id, msg, type){
       const el = document.getElementById(id);
       el.textContent = msg;
       el.className = "status" + (type ? " " + type : "");
     }
-
-    function markToken(i, val){
-      got[i] = val;
-      const chip = document.getElementById("c"+i);
-      chip.classList.add("on");
-      const t = document.getElementById("t"+i);
-      t.textContent = String(val).padStart(2,"0");
-      t.classList.remove("muted");
+    function setChip(n, on){
+      document.getElementById("c"+n).classList.toggle("on", !!on);
+    }
+    function showVal(n, text){
+      const el = document.getElementById("v"+n);
+      el.textContent = text;
+      el.classList.remove("muted");
     }
 
-    function allTokens(){
-      return [1,2,3,4,5].every(i => got[i] !== null);
+    async function sha256hex(str){
+      const enc = new TextEncoder().encode(str);
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      const bytes = Array.from(new Uint8Array(buf));
+      return bytes.map(b => b.toString(16).padStart(2,"0")).join("");
     }
 
-    function check(i){
-      const input = document.getElementById("a"+i);
-      const n = normNum(input.value);
-      if (n === null){
-        setStatus("s"+i, "Type a number.", "warn");
+    function revealKeyRuleIfReady(){
+      if (![1,2,3,4].every(i => state.solved[i])) return;
+      const box = document.getElementById("keyrule");
+      box.innerHTML = `
+        <div style="color:rgba(234,240,255,.82); margin-bottom:8px;">KEY RULE (unlocked)</div>
+        <div class="tiny">
+          Build an 8-letter key as follows:<br><br>
+          1) Take the <b>first 2 letters</b> of Seal 1.<br>
+          2) Take the <b>last 2 letters</b> of Seal 3.<br>
+          3) Append all of Seal 4.<br><br>
+          Key = <b>(S1[1..2]) + (S3[last2]) + (S4)</b>
+        </div>
+      `;
+      setStatus("sk", "Key rule unlocked. Build the key carefully.", "warn");
+    }
+
+    async function checkSeal(n){
+      const inputId = "seal"+n;
+      const raw = document.getElementById(inputId).value;
+      const cleaned = normAZ(raw);
+
+      if (!cleaned){
+        setStatus("s"+n, "Type an answer.", "warn");
         return;
       }
-      if (n < 1 || n > 26){
-        setStatus("s"+i, "Keep it between 1 and 26.", "warn");
-        return;
-      }
-      if (n === SOL[i]){
-        markToken(i, n);
-        setStatus("s"+i, "Token secured.", "good");
-        if (allTokens()){
-          setStatus("sk", "All tokens collected. Convert them with A1Z26 to build the 5-letter key.", "warn");
-        }
+
+      const h = await sha256hex(cleaned);
+      if (h === HASH[n]){
+        state.solved[n] = true;
+        state.val[n] = cleaned;
+        setChip(n, true);
+        showVal(n, cleaned);
+        setStatus("s"+n, "Seal unlocked.", "good");
+        revealKeyRuleIfReady();
       } else {
-        setStatus("s"+i, "Incorrect. Try again.", "bad");
+        setStatus("s"+n, "Incorrect. Re-check the method, not the topic.", "bad");
       }
     }
 
-    function hint(i){
-      hints[i]++;
-      const msgs = {
-        1: [
-          "Half of a half-hour is half of 30 minutes.",
-          "Half of 30 is 15."
-        ],
-        2: [
-          "A standard golf course has the same number of holes as a full scorecard.",
-          "It’s 18."
-        ],
-        3: [
-          "Mars has two small moons with names from mythology.",
-          "Phobos and Deimos = 2."
-        ],
-        4: [
-          "A normal game (not extras) has 9 innings.",
-          "It’s 9."
-        ],
-        5: [
-          "An icosahedron is one of the Platonic solids.",
-          "It has 20 faces."
-        ]
-      };
-      const m = msgs[i][Math.min(hints[i]-1, msgs[i].length-1)];
-      setStatus("s"+i, m, "warn");
-    }
-
-    // --- Vigenère decrypt (A–Z only; spaces preserved) ---
+    // Vigenère decrypt A–Z (spaces preserved)
     function vigenereDecrypt(cipher, key){
-      const A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      const k = key.toUpperCase().replace(/[^A-Z]/g,"");
+      const k = (key||"").toUpperCase().replace(/[^A-Z]/g,"");
       if (!k) return "";
       let out = "";
       let ki = 0;
-      for (const ch of cipher.toUpperCase()){
+      for (const ch of (cipher||"").toUpperCase()){
         if (A.includes(ch)){
           const c = A.indexOf(ch);
           const kk = A.indexOf(k[ki % k.length]);
           const p = (c - kk + 26) % 26;
           out += A[p];
           ki++;
-        } else {
-          out += ch;
-        }
+        } else out += ch;
       }
       return out;
     }
 
-    function unlock(){
-      const raw = (document.getElementById("key").value || "").trim().toUpperCase();
-      if (!allTokens()){
-        setStatus("sk", "You don’t have all the tokens yet.", "bad");
+    async function decrypt(){
+      const key = (document.getElementById("key").value || "").toUpperCase().replace(/[^A-Z]/g,"");
+      if (![1,2,3,4].every(i => state.solved[i])){
+        setStatus("sk", "You can’t decrypt yet. Unlock all seals first.", "bad");
         return;
       }
-      if (!/^[A-Z]{5}$/.test(raw)){
-        setStatus("sk", "Key must be 5 letters (A–Z).", "warn");
-        return;
-      }
-
-      // Compute the “earned” key from tokens via A1Z26 (no direct place clue).
-      const A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      const earned =
-        A[got[1]-1] + A[got[2]-1] + A[got[3]-1] + A[got[4]-1] + A[got[5]-1];
-
-      if (raw !== earned){
-        setStatus("sk", "Wrong key. Check your A1Z26 conversion.", "bad");
+      if (key.length !== 8){
+        setStatus("sk", "Key must be exactly 8 letters.", "warn");
         return;
       }
 
-      const plain = vigenereDecrypt(CIPHER, raw); // yields the destination phrase
+      const hk = await sha256hex(key);
+      if (hk !== HASH.K){
+        setStatus("sk", "Wrong key. Build it exactly using the Key Rule.", "bad");
+        return;
+      }
+
+      const plain = vigenereDecrypt("OANHMPNHGN YC", key); // -> destination
       setStatus("sk", "Decrypted.", "good");
-
       document.getElementById("final").innerHTML = `
         <div>
           <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(234,240,255,.65)">
             Destination
           </div>
-          <div style="margin-top:10px; font-size:26px; font-weight:950; letter-spacing:.08em; text-shadow: var(--glow);">
+          <div style="margin-top:10px; font-size:28px; font-weight:950; letter-spacing:.08em; text-shadow: var(--glow);">
             ${plain.replace(" DC", ", D.C.")}
           </div>
           <div style="margin-top:10px; color:rgba(234,240,255,.70)">
-            You earned the key first — then the location.
+            You didn’t “see” it. You built the key that made it readable.
           </div>
         </div>
       `;
     }
 
-    // Enter key submits the current field
+    function hint(n){
+      const msgs = {
+        1: [
+          "Count words. Every third word matters.",
+          "Take the first letter of word 3, 6, 9, 12, 15.",
+          "Those initials form a real 5-letter word."
+        ],
+        2: [
+          "Start with clue #3: LANTERN must be exactly two before CLOCK.",
+          "ANCHOR must be immediately before FEATHER. MASK can't be ends.",
+          "After ordering, write positions of (ANCHOR, CLOCK, FEATHER, LANTERN, MASK)."
+        ],
+        3: [
+          "Prime positions (1-indexed): 2, 3, 5, 7, 11, ...",
+          "Only take letters at positions 2,3,5,7 from the 9-letter sequence.",
+          "Those four letters spell the answer."
+        ],
+        4: [
+          "You MUST use the first 4 digits of Seal 2.",
+          "Open pages in that digit order; take the first bracketed word’s first letter each time.",
+          "Those four letters spell the answer."
+        ]
+      };
+      const s = document.getElementById("s"+n);
+      const idx = (parseInt(s.dataset.h||"0",10));
+      s.dataset.h = String(idx+1);
+      setStatus("s"+n, msgs[n][Math.min(idx, msgs[n].length-1)], "warn");
+    }
+
+    // Enter to submit active field
     document.addEventListener("keydown", (e)=>{
       if (e.key !== "Enter") return;
       const id = document.activeElement?.id || "";
-      if (id.startsWith("a")) check(parseInt(id.slice(1),10));
-      if (id === "key") unlock();
+      if (id.startsWith("seal")) checkSeal(parseInt(id.replace("seal",""),10));
+      if (id === "key") decrypt();
     });
   </script>
 </body>
