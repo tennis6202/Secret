@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PUZZLE FILE</title>
+  <style>
+    :root{
+      --bg:#070A12;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.09);
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.65);
+      --good:#57f287;
+      --warn:#ffcc66;
+      --bad:#ff5c7a;
+      --line:rgba(255,255,255,.12);
+      --glow: 0 0 30px rgba(120, 160, 255, .18);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(86,140,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(255,110,200,.12), transparent 55%),
+        radial-gradient(900px 700px at 50% 90%, rgba(120,255,220,.10), transparent 60%),
+        linear-gradient(180deg, #04060c 0%, #070A12 100%);
+      overflow-x:hidden;
+    }
+    header{
+      padding:28px 18px 10px;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{
+      width:min(980px, 94vw);
+    }
+    .title{
+      display:flex;
+      gap:14px;
+      align-items:flex-end;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    h1{
+      margin:0;
+      letter-spacing:.08em;
+      font-weight:800;
+      font-size: clamp(22px, 3.2vw, 34px);
+      text-transform: uppercase;
+      text-shadow: var(--glow);
+    }
+    .tag{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      user-select:none;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      margin:14px 0 28px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .card{
+      background: var(--panel);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      box-shadow: var(--glow);
+      backdrop-filter: blur(8px);
+    }
+    .card h2{
+      margin:0 0 10px;
+      font-size:15px;
+      letter-spacing:.06em;
+      text-transform: uppercase;
+      color: rgba(234,240,255,.9);
+    }
+    .sub{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+      margin:0 0 12px;
+    }
+
+    .mono{
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height:1.55;
+    }
+
+    .panel{
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:12px;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    input{
+      flex:1;
+      min-width: 220px;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input:focus{
+      border-color: rgba(120, 160, 255, .55);
+      box-shadow: 0 0 0 3px rgba(120,160,255,.15);
+    }
+    button{
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
+      color: var(--text);
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:.02em;
+      transition: transform .12s ease, background .2s ease;
+      user-select:none;
+    }
+    button:hover{ background: rgba(255,255,255,.14); }
+    button:active{ transform: translateY(1px) scale(.99); }
+    .hintbtn{
+      background: rgba(255, 204, 102, .10);
+      border-color: rgba(255, 204, 102, .25);
+    }
+
+    .status{
+      margin-top:10px;
+      font-size:13px;
+      color: var(--muted);
+      min-height: 20px;
+    }
+    .status.good{ color: var(--good); }
+    .status.bad{ color: var(--bad); }
+    .status.warn{ color: var(--warn); }
+
+    .lock{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px;
+      border-radius:14px;
+      background: var(--panel2);
+      border:1px solid var(--line);
+      margin-top:12px;
+    }
+    .lock b{
+      letter-spacing:.06em;
+      text-transform: uppercase;
+      font-size:12px;
+    }
+    .chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.20);
+      color: var(--muted);
+    }
+    .chip.on{
+      color: rgba(255,255,255,.95);
+      border-color: rgba(87,242,135,.35);
+      background: rgba(87,242,135,.10);
+    }
+
+    .footer{
+      padding: 0 18px 28px;
+      display:flex;
+      justify-content:center;
+      color: rgba(234,240,255,.45);
+      font-size:12px;
+      font-family: var(--mono);
+      letter-spacing:.02em;
+    }
+
+    /* a tiny “glitch” vibe */
+    .glitch{
+      position:relative;
+      display:inline-block;
+    }
+    .glitch::before,
+    .glitch::after{
+      content: attr(data-text);
+      position:absolute;
+      left:0; top:0;
+      opacity:.35;
+      pointer-events:none;
+    }
+    .glitch::before{
+      transform: translate(1px, -1px);
+      color: rgba(120,160,255,.85);
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+    .glitch::after{
+      transform: translate(-1px, 1px);
+      color: rgba(255,110,200,.75);
+      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="title">
+        <h1 class="glitch" data-text="THE FILE DOESN’T LIE">THE FILE DOESN’T LIE</h1>
+        <div class="tag">three locks · one destination</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+
+      <!-- LEFT: PUZZLE -->
+      <section class="card">
+        <h2>Lock 1 — “Read what’s missing.”</h2>
+        <p class="sub">
+          Below is a message with something *removed*. Your job is to find what was removed,
+          then type it as the answer for Lock 1.
+        </p>
+
+        <div class="panel mono" id="p1">
+          <div style="margin-bottom:10px; color:rgba(234,240,255,.85)">
+            MESSAGE (redacted):
+          </div>
+          <div>
+            <span style="color:rgba(234,240,255,.85)">"The city is hidden in plain sight:</span><br>
+            <span style="color:rgba(234,240,255,.70)">
+              &nbsp;&nbsp;W _ S H _ N G T _ N &nbsp;&nbsp;D _<br>
+              &nbsp;&nbsp;But don’t type it yet — earn it."
+            </span>
+          </div>
+          <hr style="border:0;border-top:1px solid rgba(255,255,255,.10); margin:12px 0;">
+          <div style="color:rgba(234,240,255,.75)">
+            Rule: Fill the blanks with the **same letter** each time.
+          </div>
+        </div>
+
+        <div class="row">
+          <input id="a1" placeholder="Answer for Lock 1" autocomplete="off" />
+          <button onclick="check1()">Unlock</button>
+          <button class="hintbtn" onclick="hint(1)">Hint</button>
+        </div>
+        <div class="status" id="s1"></div>
+
+        <div style="height:14px"></div>
+
+        <h2>Lock 2 — “Numbers don’t travel. Coordinates do.”</h2>
+        <p class="sub">
+          Convert the line below into letters (A1Z26). Then type the **two-word place** it becomes.
+        </p>
+
+        <div class="panel mono" id="p2">
+          <div style="color:rgba(234,240,255,.72)">A1Z26 LINE:</div>
+          <div style="margin-top:8px; font-size:14px; letter-spacing:.06em;">
+            23-1-19-8-9-14-7-20-15-14 &nbsp;&nbsp; 4-3
+          </div>
+          <div style="margin-top:10px; color:rgba(234,240,255,.65)">
+            Example: 3-1-20 = CAT
+          </div>
+        </div>
+
+        <div class="row">
+          <input id="a2" placeholder="Answer for Lock 2" autocomplete="off" />
+          <button onclick="check2()">Unlock</button>
+          <button class="hintbtn" onclick="hint(2)">Hint</button>
+        </div>
+        <div class="status" id="s2"></div>
+
+        <div style="height:14px"></div>
+
+        <h2>Lock 3 — “Shift the capital.”</h2>
+        <p class="sub">
+          Decode the cipher text. It’s a Caesar shift, but you’re not told the shift.
+          Use the clue: <b>“the answer is where laws are written.”</b>
+        </p>
+
+        <div class="panel mono" id="p3">
+          <div style="color:rgba(234,240,255,.72)">CIPHER TEXT:</div>
+          <div style="margin-top:8px; font-size:14px; letter-spacing:.06em;">
+            ZDVKLQJWRQ GF
+          </div>
+          <div style="margin-top:10px; color:rgba(234,240,255,.65)">
+            Tip: spaces stay spaces.
+          </div>
+        </div>
+
+        <div class="row">
+          <input id="a3" placeholder="Answer for Lock 3" autocomplete="off" />
+          <button onclick="check3()">Unlock</button>
+          <button class="hintbtn" onclick="hint(3)">Hint</button>
+        </div>
+        <div class="status" id="s3"></div>
+
+      </section>
+
+      <!-- RIGHT: PROGRESS + REVEAL -->
+      <aside class="card">
+        <h2>Progress</h2>
+        <p class="sub">
+          Unlock all three locks to reveal the destination.
+          (No cheating… unless you inspect the source 😉)
+        </p>
+
+        <div class="lock">
+          <b>Locks</b>
+          <div class="chips">
+            <span class="chip" id="c1">LOCK 1</span>
+            <span class="chip" id="c2">LOCK 2</span>
+            <span class="chip" id="c3">LOCK 3</span>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel">
+          <div class="mono" style="color:rgba(234,240,255,.70); margin-bottom:8px;">
+            FINAL REVEAL
+          </div>
+          <div id="final" style="
+            min-height: 150px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:12px;
+            border:1px dashed rgba(255,255,255,.18);
+            background: rgba(0,0,0,.18);
+            text-align:center;
+            padding:14px;
+          ">
+            <div style="color:rgba(234,240,255,.50)">
+              Destination will appear here.
+            </div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel mono" style="color:rgba(234,240,255,.65)">
+          <div style="margin-bottom:8px; color:rgba(234,240,255,.80)">HINTS USED</div>
+          <div>Lock 1: <span id="h1">0</span></div>
+          <div>Lock 2: <span id="h2">0</span></div>
+          <div>Lock 3: <span id="h3">0</span></div>
+          <hr style="border:0;border-top:1px solid rgba(255,255,255,.10); margin:10px 0;">
+          <div style="color:rgba(234,240,255,.55)">
+            Goal: solve with the fewest hints.
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </main>
+
+  <div class="footer">
+    file: puzzle.html · theme: “cold glass” · destination is real
+  </div>
+
+  <script>
+    // --- Puzzle state ---
+    const solved = { l1:false, l2:false, l3:false };
+    const hintsUsed = { 1:0, 2:0, 3:0 };
+
+    // Answers (normalized)
+    const ANSWERS = {
+      1: "A",                 // missing letter in W _ S H _ N G T _ N D _
+      2: "WASHINGTON DC",      // A1Z26
+      3: "WASHINGTON DC"       // Caesar shift
+    };
+
+    function norm(s){
+      return (s || "")
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g, " ")
+        .replace(/[^\w\s]/g, ""); // remove punctuation
+    }
+
+    function setChip(n, on){
+      document.getElementById("c"+n).classList.toggle("on", !!on);
+    }
+
+    function setStatus(id, msg, type){
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.className = "status" + (type ? " " + type : "");
+    }
+
+    function revealIfDone(){
+      if (solved.l1 && solved.l2 && solved.l3){
+        const final = document.getElementById("final");
+        final.innerHTML = `
+          <div>
+            <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(234,240,255,.65)">
+              Destination
+            </div>
+            <div style="margin-top:10px; font-size:26px; font-weight:900; letter-spacing:.08em; text-shadow: var(--glow);">
+              WASHINGTON, D.C.
+            </div>
+            <div style="margin-top:10px; color:rgba(234,240,255,.70)">
+              You found the capital.
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // --- Checks ---
+    function check1(){
+      const a = norm(document.getElementById("a1").value);
+      if (!a){
+        setStatus("s1", "Type a single letter.", "warn");
+        return;
+      }
+      if (a === ANSWERS[1]){
+        solved.l1 = true;
+        setChip(1,true);
+        setStatus("s1", "Unlocked. The same missing letter fills every blank.", "good");
+        revealIfDone();
+      } else {
+        setStatus("s1", "Nope. The *same* letter fills every blank.", "bad");
+      }
+    }
+
+    function check2(){
+      const a = norm(document.getElementById("a2").value);
+      if (!a){
+        setStatus("s2", "Type the decoded two-word place.", "warn");
+        return;
+      }
+      if (a === ANSWERS[2]){
+        solved.l2 = true;
+        setChip(2,true);
+        setStatus("s2", "Unlocked. A1Z26 points somewhere important.", "good");
+        revealIfDone();
+      } else {
+        setStatus("s2", "Not quite. Convert each number to a letter: 1=A, 2=B, ...", "bad");
+      }
+    }
+
+    function check3(){
+      const a = norm(document.getElementById("a3").value);
+      if (!a){
+        setStatus("s3", "Type the decoded phrase.", "warn");
+        return;
+      }
+      if (a === ANSWERS[3]){
+        solved.l3 = true;
+        setChip(3,true);
+        setStatus("s3", "Unlocked. The shift was 3 (classic).", "good");
+        revealIfDone();
+      } else {
+        setStatus("s3", "Nope. Try a Caesar shift (common one is 3).", "bad");
+      }
+    }
+
+    // --- Hints ---
+    function hint(n){
+      hintsUsed[n]++;
+      document.getElementById("h"+n).textContent = hintsUsed[n];
+
+      if (n === 1){
+        const msgs = [
+          "Look at W _ S H _ N G T _ N D _. What word does that look like?",
+          "Only ONE letter is missing, repeated every time.",
+          "Try the letter that makes W A S H A N G T A N ... become real."
+        ];
+        setStatus("s1", msgs[Math.min(hintsUsed[n]-1, msgs.length-1)], "warn");
+      }
+
+      if (n === 2){
+        const msgs = [
+          "A1Z26 means 1=A, 26=Z. Convert each chunk.",
+          "23=W, 1=A, 19=S, 8=H, 9=I, 14=N, 7=G, 20=T, 15=O, 14=N",
+          "Second word: 4=D, 3=C."
+        ];
+        setStatus("s2", msgs[Math.min(hintsUsed[n]-1, msgs.length-1)], "warn");
+      }
+
+      if (n === 3){
+        const msgs = [
+          "It’s a Caesar shift: move letters backward by a fixed amount.",
+          "Try shifting each letter back by 3 (A↤D, B↤E, ...).",
+          "ZDVKLQJWRQ GF → WASHINGTON DC"
+        ];
+        setStatus("s3", msgs[Math.min(hintsUsed[n]-1, msgs.length-1)], "warn");
+      }
+    }
+
+    // Small quality-of-life: Enter key submits the nearest lock
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+      const active = document.activeElement?.id;
+      if (active === "a1") check1();
+      if (active === "a2") check2();
+      if (active === "a3") check3();
+    });
+  </script>
+</body>
+</html>
