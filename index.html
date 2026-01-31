@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>PUZZLE FILE</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Fragment Vault</title>
   <style>
     :root{
       --bg:#070A12;
@@ -15,16 +15,14 @@
       --warn:#ffcc66;
       --bad:#ff5c7a;
       --line:rgba(255,255,255,.12);
-      --glow: 0 0 30px rgba(120, 160, 255, .18);
+      --glow: 0 0 30px rgba(120,160,255,.18);
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
     *{box-sizing:border-box}
     body{
-      margin:0;
-      min-height:100vh;
-      font-family: var(--sans);
-      color:var(--text);
+      margin:0; min-height:100vh;
+      font-family:var(--sans); color:var(--text);
       background:
         radial-gradient(1200px 600px at 20% 10%, rgba(86,140,255,.18), transparent 60%),
         radial-gradient(900px 600px at 80% 30%, rgba(255,110,200,.12), transparent 55%),
@@ -32,49 +30,30 @@
         linear-gradient(180deg, #04060c 0%, #070A12 100%);
       overflow-x:hidden;
     }
-    header{
-      padding:28px 18px 10px;
-      display:flex;
-      justify-content:center;
-    }
-    .wrap{
-      width:min(980px, 94vw);
-    }
-    .title{
-      display:flex;
-      gap:14px;
-      align-items:flex-end;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
+    .wrap{ width:min(1050px, 94vw); margin:0 auto; padding:26px 0 30px; }
+    header{ padding:0 0 8px; }
     h1{
       margin:0;
       letter-spacing:.08em;
-      font-weight:800;
-      font-size: clamp(22px, 3.2vw, 34px);
-      text-transform: uppercase;
+      text-transform:uppercase;
+      font-weight:950;
+      font-size: clamp(22px, 3.1vw, 34px);
       text-shadow: var(--glow);
     }
-    .tag{
-      font-family:var(--mono);
-      font-size:12px;
-      padding:8px 10px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:rgba(255,255,255,.04);
+    .subhead{
+      margin:10px 0 0;
       color:var(--muted);
-      user-select:none;
+      font-size:13px;
+      line-height:1.4;
+      max-width: 75ch;
     }
-
     .grid{
+      margin-top:14px;
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.2fr .8fr;
       gap:14px;
-      margin:14px 0 28px;
     }
-    @media (max-width: 860px){
-      .grid{grid-template-columns:1fr}
-    }
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr;} }
 
     .card{
       background: var(--panel);
@@ -88,39 +67,27 @@
       margin:0 0 10px;
       font-size:15px;
       letter-spacing:.06em;
-      text-transform: uppercase;
+      text-transform:uppercase;
       color: rgba(234,240,255,.9);
     }
-    .sub{
+    .hint{
       color:var(--muted);
       font-size:13px;
       line-height:1.45;
       margin:0 0 12px;
     }
-
-    .mono{
-      font-family: var(--mono);
-      font-size: 13px;
-      line-height:1.55;
-    }
-
     .panel{
       background: rgba(0,0,0,.22);
       border:1px solid rgba(255,255,255,.10);
       border-radius:14px;
       padding:12px;
+      font-family:var(--mono);
+      font-size:13px;
+      line-height:1.55;
     }
-
-    .row{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; }
     input{
-      flex:1;
-      min-width: 220px;
+      flex:1; min-width: 220px;
       padding:12px 12px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,.16);
@@ -140,7 +107,7 @@
       background: rgba(255,255,255,.10);
       color: var(--text);
       cursor:pointer;
-      font-weight:700;
+      font-weight:850;
       letter-spacing:.02em;
       transition: transform .12s ease, background .2s ease;
       user-select:none;
@@ -151,39 +118,12 @@
       background: rgba(255, 204, 102, .10);
       border-color: rgba(255, 204, 102, .25);
     }
-
-    .status{
-      margin-top:10px;
-      font-size:13px;
-      color: var(--muted);
-      min-height: 20px;
-    }
+    .status{ margin-top:10px; font-size:13px; color:var(--muted); min-height: 20px; }
     .status.good{ color: var(--good); }
     .status.bad{ color: var(--bad); }
     .status.warn{ color: var(--warn); }
 
-    .lock{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      padding:12px;
-      border-radius:14px;
-      background: var(--panel2);
-      border:1px solid var(--line);
-      margin-top:12px;
-    }
-    .lock b{
-      letter-spacing:.06em;
-      text-transform: uppercase;
-      font-size:12px;
-    }
-    .chips{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; }
     .chip{
       font-family:var(--mono);
       font-size:12px;
@@ -199,220 +139,183 @@
       background: rgba(87,242,135,.10);
     }
 
-    .footer{
-      padding: 0 18px 28px;
-      display:flex;
-      justify-content:center;
-      color: rgba(234,240,255,.45);
+    .piece{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:12px; border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
+      margin-top:10px;
+      font-family:var(--mono);
+    }
+    .piece .label{
       font-size:12px;
-      font-family: var(--mono);
-      letter-spacing:.02em;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color: rgba(234,240,255,.60);
+    }
+    .piece .val{
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.14em;
+      color: rgba(234,240,255,.95);
+    }
+    .piece .val.muted{ color: rgba(234,240,255,.35); font-weight:700; }
+
+    .final{
+      margin-top:12px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      min-height: 180px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
     }
 
-    /* a tiny “glitch” vibe */
-    .glitch{
-      position:relative;
-      display:inline-block;
-    }
-    .glitch::before,
-    .glitch::after{
-      content: attr(data-text);
-      position:absolute;
-      left:0; top:0;
-      opacity:.35;
-      pointer-events:none;
-    }
-    .glitch::before{
-      transform: translate(1px, -1px);
-      color: rgba(120,160,255,.85);
-      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-    }
-    .glitch::after{
-      transform: translate(-1px, 1px);
-      color: rgba(255,110,200,.75);
-      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    .small{
+      font-family:var(--mono);
+      font-size:12px;
+      color: rgba(234,240,255,.55);
+      line-height:1.5;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <div class="title">
-        <h1 class="glitch" data-text="THE FILE DOESN’T LIE">THE FILE DOESN’T LIE</h1>
-        <div class="tag">three locks · one destination</div>
-      </div>
-    </div>
-  </header>
+  <div class="wrap">
+    <header>
+      <h1>Fragment Vault</h1>
+      <p class="subhead">
+        None of the questions are about the destination. They only give you <b>number tokens</b>.
+        Convert the tokens with <b>A1Z26</b> to build a key, then use the key to decrypt the dossier.
+      </p>
+    </header>
 
-  <main class="wrap">
     <div class="grid">
-
-      <!-- LEFT: PUZZLE -->
+      <!-- LEFT: MINI PUZZLES -->
       <section class="card">
-        <h2>Lock 1 — “Read what’s missing.”</h2>
-        <p class="sub">
-          Below is a message with something *removed*. Your job is to find what was removed,
-          then type it as the answer for Lock 1.
-        </p>
-
-        <div class="panel mono" id="p1">
-          <div style="margin-bottom:10px; color:rgba(234,240,255,.85)">
-            MESSAGE (redacted):
-          </div>
-          <div>
-            <span style="color:rgba(234,240,255,.85)">"The city is hidden in plain sight:</span><br>
-            <span style="color:rgba(234,240,255,.70)">
-              &nbsp;&nbsp;W _ S H _ N G T _ N &nbsp;&nbsp;D _<br>
-              &nbsp;&nbsp;But don’t type it yet — earn it."
-            </span>
-          </div>
-          <hr style="border:0;border-top:1px solid rgba(255,255,255,.10); margin:12px 0;">
-          <div style="color:rgba(234,240,255,.75)">
-            Rule: Fill the blanks with the **same letter** each time.
-          </div>
-        </div>
-
+        <h2>Token 1 — Time</h2>
+        <p class="hint">How many minutes are in half of a half-hour?</p>
+        <div class="panel">Answer with a number from 1–26.</div>
         <div class="row">
-          <input id="a1" placeholder="Answer for Lock 1" autocomplete="off" />
-          <button onclick="check1()">Unlock</button>
+          <input id="a1" placeholder="token 1 number" inputmode="numeric" autocomplete="off">
+          <button onclick="check(1)">Submit</button>
           <button class="hintbtn" onclick="hint(1)">Hint</button>
         </div>
         <div class="status" id="s1"></div>
 
-        <div style="height:14px"></div>
+        <div style="height:10px"></div>
 
-        <h2>Lock 2 — “Numbers don’t travel. Coordinates do.”</h2>
-        <p class="sub">
-          Convert the line below into letters (A1Z26). Then type the **two-word place** it becomes.
-        </p>
-
-        <div class="panel mono" id="p2">
-          <div style="color:rgba(234,240,255,.72)">A1Z26 LINE:</div>
-          <div style="margin-top:8px; font-size:14px; letter-spacing:.06em;">
-            23-1-19-8-9-14-7-20-15-14 &nbsp;&nbsp; 4-3
-          </div>
-          <div style="margin-top:10px; color:rgba(234,240,255,.65)">
-            Example: 3-1-20 = CAT
-          </div>
-        </div>
-
+        <h2>Token 2 — Sports</h2>
+        <p class="hint">How many holes are in a standard round of golf?</p>
+        <div class="panel">Answer with a number from 1–26.</div>
         <div class="row">
-          <input id="a2" placeholder="Answer for Lock 2" autocomplete="off" />
-          <button onclick="check2()">Unlock</button>
+          <input id="a2" placeholder="token 2 number" inputmode="numeric" autocomplete="off">
+          <button onclick="check(2)">Submit</button>
           <button class="hintbtn" onclick="hint(2)">Hint</button>
         </div>
         <div class="status" id="s2"></div>
 
-        <div style="height:14px"></div>
+        <div style="height:10px"></div>
 
-        <h2>Lock 3 — “Shift the capital.”</h2>
-        <p class="sub">
-          Decode the cipher text. It’s a Caesar shift, but you’re not told the shift.
-          Use the clue: <b>“the answer is where laws are written.”</b>
-        </p>
-
-        <div class="panel mono" id="p3">
-          <div style="color:rgba(234,240,255,.72)">CIPHER TEXT:</div>
-          <div style="margin-top:8px; font-size:14px; letter-spacing:.06em;">
-            ZDVKLQJWRQ GF
-          </div>
-          <div style="margin-top:10px; color:rgba(234,240,255,.65)">
-            Tip: spaces stay spaces.
-          </div>
-        </div>
-
+        <h2>Token 3 — Astronomy</h2>
+        <p class="hint">How many moons does Mars have?</p>
+        <div class="panel">Answer with a number from 1–26.</div>
         <div class="row">
-          <input id="a3" placeholder="Answer for Lock 3" autocomplete="off" />
-          <button onclick="check3()">Unlock</button>
+          <input id="a3" placeholder="token 3 number" inputmode="numeric" autocomplete="off">
+          <button onclick="check(3)">Submit</button>
           <button class="hintbtn" onclick="hint(3)">Hint</button>
         </div>
         <div class="status" id="s3"></div>
 
+        <div style="height:10px"></div>
+
+        <h2>Token 4 — Baseball</h2>
+        <p class="hint">How many innings are in a standard baseball game?</p>
+        <div class="panel">Answer with a number from 1–26.</div>
+        <div class="row">
+          <input id="a4" placeholder="token 4 number" inputmode="numeric" autocomplete="off">
+          <button onclick="check(4)">Submit</button>
+          <button class="hintbtn" onclick="hint(4)">Hint</button>
+        </div>
+        <div class="status" id="s4"></div>
+
+        <div style="height:10px"></div>
+
+        <h2>Token 5 — Geometry</h2>
+        <p class="hint">How many faces does an icosahedron have?</p>
+        <div class="panel">Answer with a number from 1–26.</div>
+        <div class="row">
+          <input id="a5" placeholder="token 5 number" inputmode="numeric" autocomplete="off">
+          <button onclick="check(5)">Submit</button>
+          <button class="hintbtn" onclick="hint(5)">Hint</button>
+        </div>
+        <div class="status" id="s5"></div>
       </section>
 
-      <!-- RIGHT: PROGRESS + REVEAL -->
+      <!-- RIGHT: TOKENS + DECRYPT -->
       <aside class="card">
-        <h2>Progress</h2>
-        <p class="sub">
-          Unlock all three locks to reveal the destination.
-          (No cheating… unless you inspect the source 😉)
+        <h2>Collected tokens</h2>
+        <p class="hint">
+          Tokens are numbers 1–26. Convert them using A1Z26 to make a 5-letter key.
+          (Example: 1=A, 2=B, 26=Z)
         </p>
 
-        <div class="lock">
-          <b>Locks</b>
-          <div class="chips">
-            <span class="chip" id="c1">LOCK 1</span>
-            <span class="chip" id="c2">LOCK 2</span>
-            <span class="chip" id="c3">LOCK 3</span>
-          </div>
+        <div class="chips">
+          <span class="chip" id="c1">T1</span>
+          <span class="chip" id="c2">T2</span>
+          <span class="chip" id="c3">T3</span>
+          <span class="chip" id="c4">T4</span>
+          <span class="chip" id="c5">T5</span>
         </div>
+
+        <div class="piece"><div class="label">Token 1</div><div class="val muted" id="t1">__</div></div>
+        <div class="piece"><div class="label">Token 2</div><div class="val muted" id="t2">__</div></div>
+        <div class="piece"><div class="label">Token 3</div><div class="val muted" id="t3">__</div></div>
+        <div class="piece"><div class="label">Token 4</div><div class="val muted" id="t4">__</div></div>
+        <div class="piece"><div class="label">Token 5</div><div class="val muted" id="t5">__</div></div>
 
         <div style="height:12px"></div>
 
         <div class="panel">
-          <div class="mono" style="color:rgba(234,240,255,.70); margin-bottom:8px;">
-            FINAL REVEAL
-          </div>
-          <div id="final" style="
-            min-height: 150px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            border-radius:12px;
-            border:1px dashed rgba(255,255,255,.18);
-            background: rgba(0,0,0,.18);
-            text-align:center;
-            padding:14px;
-          ">
-            <div style="color:rgba(234,240,255,.50)">
-              Destination will appear here.
-            </div>
+          <div style="color:rgba(234,240,255,.80); margin-bottom:8px;">DOSSIER (encrypted)</div>
+          <div id="cipher" style="letter-spacing:.10em;">KRTPBBXUWG RT</div>
+          <div class="small" style="margin-top:8px;">
+            This is a Vigenère cipher (A–Z). You can’t brute-force it here—earn the key.
           </div>
         </div>
 
-        <div style="height:12px"></div>
+        <div class="row" style="margin-top:12px;">
+          <input id="key" placeholder="enter 5-letter key" autocomplete="off">
+          <button onclick="unlock()">Decrypt</button>
+        </div>
+        <div class="status" id="sk"></div>
 
-        <div class="panel mono" style="color:rgba(234,240,255,.65)">
-          <div style="margin-bottom:8px; color:rgba(234,240,255,.80)">HINTS USED</div>
-          <div>Lock 1: <span id="h1">0</span></div>
-          <div>Lock 2: <span id="h2">0</span></div>
-          <div>Lock 3: <span id="h3">0</span></div>
-          <hr style="border:0;border-top:1px solid rgba(255,255,255,.10); margin:10px 0;">
-          <div style="color:rgba(234,240,255,.55)">
-            Goal: solve with the fewest hints.
+        <div class="final" id="final">
+          <div style="color:rgba(234,240,255,.50)">
+            Decrypted destination will appear here.
           </div>
         </div>
-
       </aside>
     </div>
-  </main>
-
-  <div class="footer">
-    file: puzzle.html · theme: “cold glass” · destination is real
   </div>
 
   <script>
-    // --- Puzzle state ---
-    const solved = { l1:false, l2:false, l3:false };
-    const hintsUsed = { 1:0, 2:0, 3:0 };
+    // --- Correct token answers (numbers 1–26) ---
+    // Not related to the destination; they form a key only after A1Z26 conversion.
+    const SOL = { 1:15, 2:18, 3:2, 4:9, 5:20 };
 
-    // Answers (normalized)
-    const ANSWERS = {
-      1: "A",                 // missing letter in W _ S H _ N G T _ N D _
-      2: "WASHINGTON DC",      // A1Z26
-      3: "WASHINGTON DC"       // Caesar shift
-    };
+    // Ciphertext is shown; plaintext is NOT stored as plain text.
+    const CIPHER = "KRTPBBXUWG RT";
 
-    function norm(s){
-      return (s || "")
-        .trim()
-        .toUpperCase()
-        .replace(/\s+/g, " ")
-        .replace(/[^\w\s]/g, ""); // remove punctuation
-    }
+    const got = {1:null,2:null,3:null,4:null,5:null};
+    const hints = {1:0,2:0,3:0,4:0,5:0};
 
-    function setChip(n, on){
-      document.getElementById("c"+n).classList.toggle("on", !!on);
+    function normNum(x){
+      const n = parseInt(String(x).trim(), 10);
+      if (!Number.isFinite(n)) return null;
+      return n;
     }
 
     function setStatus(id, msg, type){
@@ -421,114 +324,135 @@
       el.className = "status" + (type ? " " + type : "");
     }
 
-    function revealIfDone(){
-      if (solved.l1 && solved.l2 && solved.l3){
-        const final = document.getElementById("final");
-        final.innerHTML = `
-          <div>
-            <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(234,240,255,.65)">
-              Destination
-            </div>
-            <div style="margin-top:10px; font-size:26px; font-weight:900; letter-spacing:.08em; text-shadow: var(--glow);">
-              WASHINGTON, D.C.
-            </div>
-            <div style="margin-top:10px; color:rgba(234,240,255,.70)">
-              You found the capital.
-            </div>
+    function markToken(i, val){
+      got[i] = val;
+      const chip = document.getElementById("c"+i);
+      chip.classList.add("on");
+      const t = document.getElementById("t"+i);
+      t.textContent = String(val).padStart(2,"0");
+      t.classList.remove("muted");
+    }
+
+    function allTokens(){
+      return [1,2,3,4,5].every(i => got[i] !== null);
+    }
+
+    function check(i){
+      const input = document.getElementById("a"+i);
+      const n = normNum(input.value);
+      if (n === null){
+        setStatus("s"+i, "Type a number.", "warn");
+        return;
+      }
+      if (n < 1 || n > 26){
+        setStatus("s"+i, "Keep it between 1 and 26.", "warn");
+        return;
+      }
+      if (n === SOL[i]){
+        markToken(i, n);
+        setStatus("s"+i, "Token secured.", "good");
+        if (allTokens()){
+          setStatus("sk", "All tokens collected. Convert them with A1Z26 to build the 5-letter key.", "warn");
+        }
+      } else {
+        setStatus("s"+i, "Incorrect. Try again.", "bad");
+      }
+    }
+
+    function hint(i){
+      hints[i]++;
+      const msgs = {
+        1: [
+          "Half of a half-hour is half of 30 minutes.",
+          "Half of 30 is 15."
+        ],
+        2: [
+          "A standard golf course has the same number of holes as a full scorecard.",
+          "It’s 18."
+        ],
+        3: [
+          "Mars has two small moons with names from mythology.",
+          "Phobos and Deimos = 2."
+        ],
+        4: [
+          "A normal game (not extras) has 9 innings.",
+          "It’s 9."
+        ],
+        5: [
+          "An icosahedron is one of the Platonic solids.",
+          "It has 20 faces."
+        ]
+      };
+      const m = msgs[i][Math.min(hints[i]-1, msgs[i].length-1)];
+      setStatus("s"+i, m, "warn");
+    }
+
+    // --- Vigenère decrypt (A–Z only; spaces preserved) ---
+    function vigenereDecrypt(cipher, key){
+      const A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const k = key.toUpperCase().replace(/[^A-Z]/g,"");
+      if (!k) return "";
+      let out = "";
+      let ki = 0;
+      for (const ch of cipher.toUpperCase()){
+        if (A.includes(ch)){
+          const c = A.indexOf(ch);
+          const kk = A.indexOf(k[ki % k.length]);
+          const p = (c - kk + 26) % 26;
+          out += A[p];
+          ki++;
+        } else {
+          out += ch;
+        }
+      }
+      return out;
+    }
+
+    function unlock(){
+      const raw = (document.getElementById("key").value || "").trim().toUpperCase();
+      if (!allTokens()){
+        setStatus("sk", "You don’t have all the tokens yet.", "bad");
+        return;
+      }
+      if (!/^[A-Z]{5}$/.test(raw)){
+        setStatus("sk", "Key must be 5 letters (A–Z).", "warn");
+        return;
+      }
+
+      // Compute the “earned” key from tokens via A1Z26 (no direct place clue).
+      const A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const earned =
+        A[got[1]-1] + A[got[2]-1] + A[got[3]-1] + A[got[4]-1] + A[got[5]-1];
+
+      if (raw !== earned){
+        setStatus("sk", "Wrong key. Check your A1Z26 conversion.", "bad");
+        return;
+      }
+
+      const plain = vigenereDecrypt(CIPHER, raw); // yields the destination phrase
+      setStatus("sk", "Decrypted.", "good");
+
+      document.getElementById("final").innerHTML = `
+        <div>
+          <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(234,240,255,.65)">
+            Destination
           </div>
-        `;
-      }
+          <div style="margin-top:10px; font-size:26px; font-weight:950; letter-spacing:.08em; text-shadow: var(--glow);">
+            ${plain.replace(" DC", ", D.C.")}
+          </div>
+          <div style="margin-top:10px; color:rgba(234,240,255,.70)">
+            You earned the key first — then the location.
+          </div>
+        </div>
+      `;
     }
 
-    // --- Checks ---
-    function check1(){
-      const a = norm(document.getElementById("a1").value);
-      if (!a){
-        setStatus("s1", "Type a single letter.", "warn");
-        return;
-      }
-      if (a === ANSWERS[1]){
-        solved.l1 = true;
-        setChip(1,true);
-        setStatus("s1", "Unlocked. The same missing letter fills every blank.", "good");
-        revealIfDone();
-      } else {
-        setStatus("s1", "Nope. The *same* letter fills every blank.", "bad");
-      }
-    }
-
-    function check2(){
-      const a = norm(document.getElementById("a2").value);
-      if (!a){
-        setStatus("s2", "Type the decoded two-word place.", "warn");
-        return;
-      }
-      if (a === ANSWERS[2]){
-        solved.l2 = true;
-        setChip(2,true);
-        setStatus("s2", "Unlocked. A1Z26 points somewhere important.", "good");
-        revealIfDone();
-      } else {
-        setStatus("s2", "Not quite. Convert each number to a letter: 1=A, 2=B, ...", "bad");
-      }
-    }
-
-    function check3(){
-      const a = norm(document.getElementById("a3").value);
-      if (!a){
-        setStatus("s3", "Type the decoded phrase.", "warn");
-        return;
-      }
-      if (a === ANSWERS[3]){
-        solved.l3 = true;
-        setChip(3,true);
-        setStatus("s3", "Unlocked. The shift was 3 (classic).", "good");
-        revealIfDone();
-      } else {
-        setStatus("s3", "Nope. Try a Caesar shift (common one is 3).", "bad");
-      }
-    }
-
-    // --- Hints ---
-    function hint(n){
-      hintsUsed[n]++;
-      document.getElementById("h"+n).textContent = hintsUsed[n];
-
-      if (n === 1){
-        const msgs = [
-          "Look at W _ S H _ N G T _ N D _. What word does that look like?",
-          "Only ONE letter is missing, repeated every time.",
-          "Try the letter that makes W A S H A N G T A N ... become real."
-        ];
-        setStatus("s1", msgs[Math.min(hintsUsed[n]-1, msgs.length-1)], "warn");
-      }
-
-      if (n === 2){
-        const msgs = [
-          "A1Z26 means 1=A, 26=Z. Convert each chunk.",
-          "23=W, 1=A, 19=S, 8=H, 9=I, 14=N, 7=G, 20=T, 15=O, 14=N",
-          "Second word: 4=D, 3=C."
-        ];
-        setStatus("s2", msgs[Math.min(hintsUsed[n]-1, msgs.length-1)], "warn");
-      }
-
-      if (n === 3){
-        const msgs = [
-          "It’s a Caesar shift: move letters backward by a fixed amount.",
-          "Try shifting each letter back by 3 (A↤D, B↤E, ...).",
-          "ZDVKLQJWRQ GF → WASHINGTON DC"
-        ];
-        setStatus("s3", msgs[Math.min(hintsUsed[n]-1, msgs.length-1)], "warn");
-      }
-    }
-
-    // Small quality-of-life: Enter key submits the nearest lock
-    document.addEventListener("keydown", (e) => {
+    // Enter key submits the current field
+    document.addEventListener("keydown", (e)=>{
       if (e.key !== "Enter") return;
-      const active = document.activeElement?.id;
-      if (active === "a1") check1();
-      if (active === "a2") check2();
-      if (active === "a3") check3();
+      const id = document.activeElement?.id || "";
+      if (id.startsWith("a")) check(parseInt(id.slice(1),10));
+      if (id === "key") unlock();
     });
   </script>
 </body>
